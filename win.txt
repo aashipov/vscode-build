@@ -1,0 +1,23 @@
+Visual Studio 2017
+
+Node.js 16
+
+cygwin
+
+Python 3.10 as C:\Python310
+
+A system-managed page file
+
+
+
+Windows Server 2012 R2
+
+dotnet 6 as %DOTNET_ROOT% and in %PATH%
+
+
+
+OR
+
+
+
+Windows Server 2022 (with Defender removed - in PowerShell ```Uninstall-WindowsFeature -Name Windows-Defender```)
