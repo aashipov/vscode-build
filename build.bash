@@ -12,8 +12,7 @@ VOLUMES="-v ${HOST_DIR}:/dummy:rw -v ${THIS_DIR}/${ENTRYPOINT_BASH}:/${DUMMY_USE
 CMD="bash /${DUMMY_USER}/${ENTRYPOINT_BASH}"
 
 docker pull ${IMAGE}
-if [[ $? -ne 0 ]]
-then 
+if [[ $? -ne 0 ]]; then
     docker build --tag=${IMAGE} .
     docker push ${IMAGE}
 fi
