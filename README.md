@@ -1,27 +1,39 @@
-### Build vscode opensource ###
+# Visual Studio Code opensource #
 
-#### Host requirements ####
+## Why? ##
 
-Linux with docker, user with UID 10001, a member of GID 10001 and docker groups, enough disk space in ```${HOME}``` to store source and build files
+Neat
+
+## How ? ##
+
+Linux with docker & docker-compose, user with UID/GID 10001, a member of docker group, enough disk space in ```${HOME}``` (Drive C: in Windows) to store source and build files
 
 [Windows host](win.txt)
 
-#### How-to run ####
+Both Linux and Windows expect a ```.github_token``` file in ```${HOME}``` for archive upload
 
-##### Linux #####
+### Linux ###
 
-```shell script
-bash builder.bash
+```shell
+docker-compose -f docker-compose.yml run --rm vscode
 ```
 
-##### Windows #####
+### Windows ###
 
-Clone repo to ```${HOME}/dev/VSC```, cd to it, run ```bash entrypoint.bash```
+Git Bash
 
-#### Tweaks ####
+```shell
+PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 ./entrypoint.bash
+```
 
-Put some extensionsGallery to ```resources/app/product.json```
+### Installation & setup tweaks ###
 
-#### License ####
+Untar, copy-paste an extensionsGallery to ```resources/app/product.json```
+
+### Limitations ###
+
+Use [netcoredbg](https://wiki.archlinux.org/title/Talk:Visual_Studio_Code) as [vsdbg is only available in Microsoft Visual Studio Code](https://github.com/OmniSharp/omnisharp-vscode/wiki/Microsoft-.NET-Core-Debugger-licensing-and-Microsoft-Visual-Studio-Code)
+
+### License ###
 
 Perl "Artistic License"

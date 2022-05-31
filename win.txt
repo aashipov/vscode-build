@@ -1,23 +1,29 @@
+8+ GiB RAM, system managed swap
+
+Either
+
+Windows Server 2012 R2 with WMF 5.1
+
+or
+
+Windows Server 2022 (with Defender removed - in Windows PowerShell as Administrator ```Uninstall-WindowsFeature -Name Windows-Defender```)
+
+
+Writable systemdrive (C:\)
+
+Regular user
+
 Visual Studio 2017
 
 Node.js 16
 
-cygwin
-
-Python 3.10 as C:\Python310
-
-A system-managed page file
+Python 3.10
 
 
+It takes a lot of fiddling around node-gyp: 
 
-Windows Server 2012 R2
+```npm i -g node-gyp@latest```
 
-dotnet 6 as %DOTNET_ROOT% and in %PATH%
+```${USERPROFILE}/AppData/Local/node-gyp/```  removal, 
 
-
-
-OR
-
-
-
-Windows Server 2022 (with Defender removed - in PowerShell ```Uninstall-WindowsFeature -Name Windows-Defender```)
+remove and re-install Node.js
