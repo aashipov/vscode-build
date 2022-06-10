@@ -18,4 +18,5 @@ ADD https://nodejs.org/dist/${NODE_JS_VERSION}/${NODEJS_ARCHIVE_NAME} /tmp/
 RUN mkdir -p ${NODE_HOME} && tar -xzf ${NODEJS_ARCHIVE_IN_TMP} -C ${NODE_HOME} --strip-components=1 && npm install --global yarn
 
 FROM base
-COPY --from=downloader ${NODE_HOME}/ ${NODE_HOME}/
+ARG DUMMY_USER=dummy
+COPY --chown=${DUMMY_USER}:${DUMMY_USER} --from=downloader ${NODE_HOME}/ ${NODE_HOME}/
