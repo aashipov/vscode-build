@@ -15,7 +15,7 @@ Both Linux and Windows expect a ```.github_token``` file in ```${HOME}``` for ar
 ### Linux ###
 
 ```shell
-docker-compose -f docker-compose.yml run --rm vscode
+DISTRO=debian docker-compose -f docker-compose.yml run --rm vscode
 ```
 
 ### Windows ###

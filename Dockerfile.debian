@@ -1,4 +1,4 @@
-FROM debian:10 AS base
+FROM debian:12 AS base
 ARG DUMMY_USER=dummy
 ARG UID_GID=10001
 ENV NODE_HOME=/opt/nodejs
@@ -11,7 +11,7 @@ RUN apt-get update && apt-get -y upgrade && \
     groupadd -g ${UID_GID} ${DUMMY_USER} && useradd -m -u ${UID_GID} -d /${DUMMY_USER}/ -g ${DUMMY_USER} ${DUMMY_USER}
 
 FROM base AS builder
-RUN curl -L -o /tmp/nodejs.tar.gz https://nodejs.org/dist/latest-v16.x/node-v16.20.1-linux-x64.tar.gz && \
+RUN curl -L -o /tmp/nodejs.tar.gz https://nodejs.org/dist/v18.17.1/node-v18.17.1-linux-x64.tar.gz && \
 mkdir -p ${NODE_HOME} && \
 tar -xzf /tmp/nodejs.tar.gz -C ${NODE_HOME} --strip-components=1 && npm install --global yarn && yarn --version && npm install --global gulp && gulp --version
 

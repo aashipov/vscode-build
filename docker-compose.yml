@@ -1,6 +1,5 @@
 version: '3.8'
 
-# DISTRO=centos docker-compose -f docker-compose.yml run --rm vscode
 # DISTRO=debian docker-compose -f docker-compose.yml run --rm vscode
 
 services:
