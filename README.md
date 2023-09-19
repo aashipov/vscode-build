@@ -2,7 +2,7 @@
 
 ## Why? ##
 
-Neat
+Pristine VSCode OSS build, result of 'systems primitivism' R&D - 'as much benefits from as simple toolbox as possible'
 
 ## How ? ##
 
