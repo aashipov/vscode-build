@@ -62,10 +62,10 @@ build() {
     source /opt/rh/devtoolset-10/enable
   fi
 
-  if [[ "${OSTYPE}" == "cygwin" || "${OSTYPE}" == "msys" ]]; then
+  if [[ "${OSTYPE}" == "msys" ]]; then
     npm i -g yarn
     npm i -g gulp
-    if [[ "$(uname)" == "CYGWIN_NT-6.3-9600" || "$(uname)" == "MINGW64_NT-6.3-9600" ]]; then
+    if [[ "$(uname)" == "MINGW64_NT-6.3-9600" ]]; then
       yarn cache clean
       # rm -rf ${USERPROFILE}/AppData/Local/node-gyp/
       # npm config -g set msvs_version 2017
@@ -103,13 +103,16 @@ publish() {
 }
 
 closure() {
+  if [[ "${OSTYPE}" == "cygwin" ]]; then
+    printf "Will not compile with cygwin. Switch to Git Bash\n"
+    exit 1
+  fi
   environment
   clean_leftovers
   checkout
   build
   publish
 }
-
 
 # Main procedure
 closure
