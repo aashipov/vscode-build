@@ -15,10 +15,11 @@ Regular user
 
 Visual Studio 2017
 
-Node.js 16
+Node.js 18
 
 Python 3.10
 
+Git Bash or msys2 (MSYS2_PATH_TYPE=inherit)
 
 It takes a lot of fiddling around node-gyp: 
 
