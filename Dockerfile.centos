@@ -12,10 +12,10 @@ RUN yum -y update && \
 
 FROM base AS builder
 RUN yum -y install yum-utils && yum-builddep -y python3
-RUN curl -L -o /tmp/nodejs.tar.gz https://github.com/aashipov/vscode-build/releases/download/1.0.0/node-v18.19.0-linux-x64-centos7.tar.gz && \
+RUN curl -L -o /tmp/nodejs.tar.gz https://unofficial-builds.nodejs.org/download/release/v20.14.0/node-v20.14.0-linux-x64-glibc-217.tar.gz && \
 mkdir -p ${NODE_HOME} && \
 tar -xzf /tmp/nodejs.tar.gz -C ${NODE_HOME} --strip-components=1 && npm install --global yarn && yarn --version && npm install --global gulp && gulp --version
-RUN curl -L -o /tmp/python.tar.gz https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz && \
+RUN curl -L -o /tmp/python.tar.gz https://www.python.org/ftp/python/3.12.4/Python-3.12.4.tgz && \
 mkdir -p /opt/python /opt/python-build && \
 tar -xzf /tmp/python.tar.gz -C /opt/python-build --strip-components=1 && \
 . /opt/rh/devtoolset-10/enable && \

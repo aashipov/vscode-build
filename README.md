@@ -23,7 +23,7 @@ docker-compose run --rm vscode
 Git Bash
 
 ```shell
-PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 ./entrypoint.bash
+export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 && export NODE_OPTIONS="--max-old-space-size=8192" && ./entrypoint.bash
 ```
 
 ### Installation & setup tweaks ###

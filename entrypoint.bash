@@ -58,6 +58,8 @@ checkout() {
 }
 
 build() {
+  set -e
+  cd ${TOP_DIR}/${VSCODE}/
   if [ -f /etc/centos-release ] || [ -f /etc/redhat-release ]; then
     source /opt/rh/devtoolset-10/enable
   fi
@@ -78,7 +80,14 @@ build() {
   else
     yarn
   fi
-  yarn gulp vscode-${PLATFORM_FLAVOR}-min
+  yarn monaco-compile-check
+  yarn valid-layers-check
+
+  yarn gulp compile-build
+  yarn gulp compile-extension-media
+  yarn gulp compile-extensions-build
+  yarn gulp minify-vscode
+  yarn gulp vscode-${PLATFORM_FLAVOR}-min-ci
 }
 
 publish() {

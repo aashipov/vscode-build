@@ -28,3 +28,7 @@ It takes a lot of fiddling around node-gyp:
 ```${USERPROFILE}/AppData/Local/node-gyp/```  removal, 
 
 remove and re-install Node.js
+
+node-gyp fails to compile headers
+
+cd vscode && npm_config_tarball=node-v29.4.0-headers.tar.gz yarn install
