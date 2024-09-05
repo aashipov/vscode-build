@@ -60,7 +60,7 @@ checkout() {
 build() {
   set -e
   cd ${TOP_DIR}/${VSCODE}/
-  if [ -f /etc/centos-release ] || [ -f /etc/redhat-release ]; then
+  if [ [ -f /etc/centos-release ] || [ -f /etc/redhat-release ] ] && [ ! -f /etc/fedora-release ]; then
     source /opt/rh/devtoolset-10/enable
   fi
 

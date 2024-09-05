@@ -15,7 +15,7 @@ Regular user
 
 Visual Studio 2017
 
-Node.js 18
+Node.js 20
 
 Python 3.10
 
@@ -31,4 +31,4 @@ remove and re-install Node.js
 
 node-gyp fails to compile headers
 
-cd vscode && npm_config_tarball=node-v29.4.0-headers.tar.gz yarn install
+cd /c/vscode-buildbed/vscode && curl -LO https://www.electronjs.org/headers/v30.1.2/node-v30.1.2-headers.tar.gz && npm_config_tarball=/c/vscode-buildbed/vscode/node-v30.1.2-headers.tar.gz yarn install
