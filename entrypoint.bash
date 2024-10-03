@@ -2,6 +2,34 @@
 
 set -x
 
+# Take n retries till zero exit code or n is expired
+# https://serverfault.com/a/1058764
+retry() {
+  local retries_count=5
+  local sleep_between_retries_for=5s
+  local command="${*}"
+  local retval=1
+  local attempt=1
+  until [[ ${retval} -eq 0 ]] || [[ ${attempt} -gt ${retries_count} ]]; do
+    # Execute inside of a subshell in case parent
+    # script is running with "set -e"
+    (
+      set +e
+      ${command}
+    )
+    retval=${?}
+    attempt=$((${attempt} + 1))
+    if [[ ${retval} -ne 0 ]]; then
+      # If there was an error wait ... seconds
+      sleep ${sleep_between_retries_for}
+    fi
+  done
+  if [[ ${retval} -ne 0 ]] && [[ ${attempt} -gt ${retries_count} ]]; then
+    # Something is fubar, go ahead and exit
+    echo "command ${command} failed with exit code ${retval}"
+  fi
+}
+
 environment() {
   local _SCRIPT_DIR=$(dirname -- "$(readlink -f -- "$0")")
 
@@ -50,6 +78,7 @@ checkout() {
   fi
 
   if [ $(git tag -l "${TAG_TO_BUILD}") ]; then
+    git clean -d -f .
     git checkout tags/${TAG_TO_BUILD}
   else
     printf "Can not find tag ${TAG_TO_BUILD}\n"
@@ -85,7 +114,7 @@ build() {
 
   yarn gulp compile-build
   yarn gulp compile-extension-media
-  yarn gulp compile-extensions-build
+  retry yarn gulp compile-extensions-build
   yarn gulp minify-vscode
   yarn gulp vscode-${PLATFORM_FLAVOR}-min-ci
 }
