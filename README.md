@@ -12,24 +12,18 @@ Linux with docker & docker-compose, user with UID/GID 10001, a member of docker 
 
 Both Linux and Windows expect a ```.github_token``` file in ```${HOME}``` for archive upload
 
-### Linux ###
+### Linux with Docker ###
 
 ```shell
 docker-compose run --rm vscode
 ```
 
-If node-gyp fails to compile headers,
-
-```shell
-cd ${HOME}/vscode-buildbed/vscode && curl -LO https://www.electronjs.org/headers/v30.1.2/node-v30.1.2-headers.tar.gz && npm_config_tarball=${HOME}/vscode-buildbed/vscode/node-v30.1.2-headers.tar.gz yarn install
-```
-
-### Windows ###
+### Windows or docker-free Linux ###
 
 Git Bash
 
 ```shell
-export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 && export NODE_OPTIONS="--max-old-space-size=8192" && ./entrypoint.bash
+./entrypoint.bash
 ```
 
 ### Installation & setup tweaks ###

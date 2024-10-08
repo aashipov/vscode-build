@@ -31,6 +31,9 @@ retry() {
 }
 
 environment() {
+  export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+  export NODE_OPTIONS="--max-old-space-size=8192"
+  
   local _SCRIPT_DIR=$(dirname -- "$(readlink -f -- "$0")")
 
   TAG_TO_BUILD=$(cat ${_SCRIPT_DIR}/.tag_to_build)
@@ -86,6 +89,13 @@ checkout() {
   fi
 }
 
+install_node_headers(){
+	cd ${TOP_DIR}/${VSCODE}/
+	local NODE_HEADERS_VERSION=$(grep -E "\"electron\": \"[[:digit:]]." package.json | cut -d '"' -f 4)
+	curl -LO https://www.electronjs.org/headers/v${NODE_HEADERS_VERSION}/node-v${NODE_HEADERS_VERSION}-headers.tar.gz 
+	npm_config_tarball=${TOP_DIR}/${VSCODE}/node-v${NODE_HEADERS_VERSION}-headers.tar.gz npm install
+}
+
 build() {
   set -e
   cd ${TOP_DIR}/${VSCODE}/
@@ -93,30 +103,15 @@ build() {
     source /opt/rh/devtoolset-10/enable
   fi
 
-  if [[ "${OSTYPE}" == "msys" ]]; then
-    npm i -g yarn
-    npm i -g gulp
-    if [[ "$(uname)" == "MINGW64_NT-6.3-9600" ]]; then
-      yarn cache clean
-      # rm -rf ${USERPROFILE}/AppData/Local/node-gyp/
-      # npm config -g set msvs_version 2017
-      # npm i -g node-gyp@latest
-      # npm config -g set node_gyp $(npm prefix -g)/node_modules/node-gyp/bin/node-gyp.js
-      powershell -c yarn
-    else
-      powershell -c yarn
-    fi
-  else
-    yarn
-  fi
-  yarn monaco-compile-check
-  yarn valid-layers-check
+  npm install
+  npm run monaco-compile-check
+  npm run valid-layers-check
 
-  yarn gulp compile-build
-  yarn gulp compile-extension-media
-  retry yarn gulp compile-extensions-build
-  yarn gulp minify-vscode
-  yarn gulp vscode-${PLATFORM_FLAVOR}-min-ci
+  npm run compile-build
+  npm run gulp compile-extension-media
+  retry npm run compile-extensions-build
+  npm run minify-vscode
+  npm run gulp vscode-${PLATFORM_FLAVOR}-min-ci
 }
 
 publish() {
@@ -148,6 +143,7 @@ closure() {
   environment
   clean_leftovers
   checkout
+  install_node_headers
   build
   publish
 }
