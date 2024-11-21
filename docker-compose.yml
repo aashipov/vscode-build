@@ -1,5 +1,3 @@
-version: '3.8'
-
 # mkdir -p ${HOME}/vscode-buildbed && docker-compose run --rm vscode
 
 services:

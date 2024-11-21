@@ -1,0 +1,10 @@
+Visual Studio Code Crashes on Clicking Ribbon Menu 'File' in Version 1.95.0
+
+https://github.com/microsoft/vscode/issues/230604#issuecomment-2408615081
+https://github.com/microsoft/vscode/blob/e62dc67d6252105edfffa9b5222546b67538b40a/src/vs/workbench/contrib/welcomeViews/common/newFile.contribution.ts#L34
+
+Open VS Code
+Press <ctrl> + <k> then <ctrl> + <s>
+In search box add "@source:system welcome.showNewFileEntries"
+Press to select field shown
+In the dialogue box submit, e.g. <ctrl> + <shift> + <atl> + <n>

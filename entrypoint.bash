@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 # Take n retries till zero exit code or n is expired
 # https://serverfault.com/a/1058764
 retry() {
@@ -31,9 +29,9 @@ retry() {
 }
 
 environment() {
+  #export ELECTRON_SKIP_BINARY_DOWNLOAD=1
   export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
   export NODE_OPTIONS="--max-old-space-size=8192"
-  
   local _SCRIPT_DIR=$(dirname -- "$(readlink -f -- "$0")")
 
   TAG_TO_BUILD=$(cat ${_SCRIPT_DIR}/.tag_to_build)
@@ -47,16 +45,21 @@ environment() {
 
   PLATFORM_FLAVOR="linux-x64"
   TOP_DIR=${HOME}/${BUILDBED_DIR_NAME}
-  if [[ "${OSTYPE}" == "cygwin" || "${OSTYPE}" == "msys" ]]; then
-    PLATFORM_FLAVOR="win32-x64"
-  fi
-  if [[ "${OSTYPE}" == "cygwin" ]]; then
-    TOP_DIR="/cygdrive/c/${BUILDBED_DIR_NAME}"
-  fi
   if [[ "${OSTYPE}" == "msys" ]]; then
+    PLATFORM_FLAVOR="win32-x64"
     TOP_DIR="/c/${BUILDBED_DIR_NAME}"
   fi
   TARGET_DIR_NAME="VSCode-${PLATFORM_FLAVOR}"
+}
+
+clean_npm_and_node-gyp() {
+  if [[ "${OSTYPE}" == "msys" ]]; then
+    rm -rf ${USERPROFILE}/AppData/Local/npm-cache
+    rm -rf ${USERPROFILE}/AppData/Local/node-gyp
+  else
+    rm -rf ${HOME}/.npm/
+    rm -rf ${HOME}/.cache/node-gyp/
+  fi
 }
 
 clean_leftovers() {
@@ -73,7 +76,7 @@ checkout() {
     cd ${TOP_DIR}/${VSCODE}/
   else
     cd ${TOP_DIR}/${VSCODE}/
-    find "${PWD}" -type d -name 'node_modules' -exec rm -r {} \;
+    git clean -xfd
     git reset --hard
     git checkout ${DEFAULT_BRANCH}
     git pull --rebase
@@ -81,35 +84,32 @@ checkout() {
   fi
 
   if [ $(git tag -l "${TAG_TO_BUILD}") ]; then
-    git clean -d -f .
     git checkout tags/${TAG_TO_BUILD}
+  elif [[ $(git cat-file -t ${TAG_TO_BUILD}) == "commit" ]]; then
+    git checkout ${TAG_TO_BUILD}
   else
-    printf "Can not find tag ${TAG_TO_BUILD}\n"
-    exit 1
+    TAG_TO_BUILD=${DEFAULT_BRANCH}-$(git rev-parse --short HEAD)
+    printf "Will build ${TAG_TO_BUILD} \n"
   fi
-}
-
-install_node_headers(){
-	cd ${TOP_DIR}/${VSCODE}/
-	local NODE_HEADERS_VERSION=$(grep -E "\"electron\": \"[[:digit:]]." package.json | cut -d '"' -f 4)
-	curl -LO https://www.electronjs.org/headers/v${NODE_HEADERS_VERSION}/node-v${NODE_HEADERS_VERSION}-headers.tar.gz 
-	npm_config_tarball=${TOP_DIR}/${VSCODE}/node-v${NODE_HEADERS_VERSION}-headers.tar.gz npm install
 }
 
 build() {
-  set -e
   cd ${TOP_DIR}/${VSCODE}/
-  if [ [ -f /etc/centos-release ] || [ -f /etc/redhat-release ] ] && [ ! -f /etc/fedora-release ]; then
-    source /opt/rh/devtoolset-10/enable
-  fi
 
-  npm install
+  set +e
+  retry npm ci
+  set -e
+
   npm run monaco-compile-check
   npm run valid-layers-check
 
   npm run compile-build
   npm run gulp compile-extension-media
+
+  set +e
   retry npm run compile-extensions-build
+  set -e
+
   npm run minify-vscode
   npm run gulp vscode-${PLATFORM_FLAVOR}-min-ci
 }
@@ -117,14 +117,15 @@ build() {
 publish() {
   if [[ $? -eq 0 ]]; then
     cd ${TOP_DIR}
-    FILE_NAME=${TARGET_DIR_NAME}-${TAG_TO_BUILD}.tar.gz
+    local FILE_NAME=${TARGET_DIR_NAME}-${TAG_TO_BUILD}.tar.gz
+    
     GZIP=-9 tar -czhf ${FILE_NAME} ${TARGET_DIR_NAME}
 
-    GITHUB_TOKEN=$(cat ${HOME}/.github_token)
+    local GITHUB_TOKEN=$(cat ${HOME}/.github_token)
     if [[ "${GITHUB_TOKEN}" != "" ]]; then
-      GITHUB_OWNER=aashipov
-      GITHUB_REPO=vscode-build
-      GITHUB_RELEASE_ID=77065247
+      local GITHUB_OWNER=aashipov
+      local GITHUB_REPO=vscode-build
+      local GITHUB_RELEASE_ID=77065247
 
       curl \
         https://uploads.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/releases/${GITHUB_RELEASE_ID}/assets?name=${FILE_NAME} \
@@ -141,9 +142,9 @@ closure() {
     exit 1
   fi
   environment
+  #clean_npm_and_node-gyp
   clean_leftovers
   checkout
-  install_node_headers
   build
   publish
 }
