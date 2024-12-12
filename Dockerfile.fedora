@@ -1,12 +1,12 @@
-FROM fedora:40 AS base
+FROM fedora:41 AS base
 ARG DUMMY_USER=dummy
 ARG UID_GID=10001
 ENV NODE_HOME=/opt/nodejs
 ENV PATH=${NODE_HOME}/bin:${PATH}
-RUN yum -y update && \
-    yum -y groupinstall "Development Tools" && \
-    yum -y install libX11-devel.x86_64 libxkbfile-devel.x86_64 libsecret-devel krb5-devel gcc-c++ && \
-    yum -y clean all && \
+RUN dnf -y update && \
+    dnf -y install @development-tools && \
+    dnf -y install libX11-devel.x86_64 libxkbfile-devel.x86_64 libsecret-devel krb5-devel gcc-c++ && \
+    dnf -y clean all && \
     groupadd -g ${UID_GID} ${DUMMY_USER} && useradd -m -u ${UID_GID} -d /${DUMMY_USER}/ -g ${DUMMY_USER} ${DUMMY_USER}
 
 FROM base AS builder

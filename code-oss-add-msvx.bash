@@ -4,6 +4,10 @@
 
 main() {
     set -ex
+    
+    local _SCRIPT_DIR=$(dirname -- "$(readlink -f -- "$0")")
+    cd ${_SCRIPT_DIR}
+
     local VSCODE_DIR="VSCode-linux-x64"
     if [[ "${OSTYPE}" == "msys" ]]; then
        VSCODE_DIR="VSCode-win32-x64"
