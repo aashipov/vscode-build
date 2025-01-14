@@ -32,7 +32,9 @@ Untar, copy-paste an extensionsGallery to ```resources/app/product.json```
 
 ### Limitations ###
 
-Use [netcoredbg](https://wiki.archlinux.org/title/Talk:Visual_Studio_Code) as [vsdbg is only available in Microsoft Visual Studio Code](https://github.com/OmniSharp/omnisharp-vscode/wiki/Microsoft-.NET-Core-Debugger-licensing-and-Microsoft-Visual-Studio-Code)
+[netcoredbg](https://wiki.archlinux.org/title/Talk:Visual_Studio_Code) as [vsdbg is only available in Microsoft Visual Studio Code](https://github.com/OmniSharp/omnisharp-vscode/wiki/Microsoft-.NET-Core-Debugger-licensing-and-Microsoft-Visual-Studio-Code)
+
+[Pyright](https://marketplace.visualstudio.com/items?itemName=ms-pyright.pyright) as OSS replacement for [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance)
 
 ### License ###
 
