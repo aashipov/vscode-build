@@ -12,6 +12,12 @@ Linux with docker & docker-compose, user with UID/GID 10001, a member of docker 
 
 Both Linux and Windows expect a ```.github_token``` file in ```${HOME}``` for archive upload
 
+Linux Swapfile (1.98.0 on)
+
+```sudo mkswap -U clear --size 8G --file /swapfile```
+
+Put ```/swapfile none swap defaults 0 0``` to ```/etc/fstab```
+
 ### Linux with Docker ###
 
 ```shell
