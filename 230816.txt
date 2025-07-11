@@ -1,0 +1,5 @@
+Cannot install ... extension because Visual Studio Code cannot verify the extension signature
+
+https://github.com/microsoft/vscode/issues/230816
+
+Put "extensions.verifySignature": false to $HOME/.config/Code - OSS/User/settings.json
