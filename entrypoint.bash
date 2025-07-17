@@ -100,11 +100,14 @@ build() {
   retry npm ci
   set -e
 
+  export NODE_OPTIONS="--max-old-space-size=8192"
+
   npm run monaco-compile-check
   npm run valid-layers-check
 
-  npm run compile-build
+  npm run gulp compile-build-without-mangling
   npm run gulp compile-extension-media
+  npm run gulp compile-extensions-build
 
   set +e
   retry npm run compile-extensions-build

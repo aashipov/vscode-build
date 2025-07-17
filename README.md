@@ -14,14 +14,23 @@ Both Linux and Windows expect a ```.github_token``` file in ```${HOME}``` for ar
 
 Linux Swapfile (1.98.0 on)
 
-```sudo mkswap -U clear --size 8G --file /swapfile```
+```sudo mkswap -U clear --size 16G --file /swapfile```
 
 Put ```/swapfile none swap defaults 0 0``` to ```/etc/fstab```
 
 ### Linux with Docker ###
 
 ```shell
-docker-compose run --rm vscode
+mkdir -p ${HOME}/vscode-buildbed
+```
+
+```shell
+DISTRO=debian DUMMY_UID=$(id -u) DUMMY_GID=$(id -g) docker-compose run --build --rm vscode
+```
+or
+
+```shell
+DISTRO=fedora DUMMY_UID=$(id -u) DUMMY_GID=$(id -g) docker-compose run --build --rm vscode
 ```
 
 ### Windows or docker-free Linux ###

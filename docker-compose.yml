@@ -1,11 +1,18 @@
-# mkdir -p ${HOME}/vscode-buildbed && docker-compose run --rm vscode
+# mkdir -p ${HOME}/vscode-buildbed 
+# DISTRO=debian DUMMY_UID=$(id -u) DUMMY_GID=$(id -g) docker-compose run --build --rm vscode
+# DISTRO=fedora DUMMY_UID=$(id -u) DUMMY_GID=$(id -g) docker-compose run --build --rm vscode
 
 services:
   vscode:
     image: ${DOCKER_HUB_USER_AND_REPOSITORY}:${DISTRO}-${COMPOSE_PROJECT_NAME}
+    build:
+      dockerfile: Dockerfile.${DISTRO}
+      args:
+        - DUMMY_UID=${DUMMY_UID}
+        - DUMMY_GID=${DUMMY_GID}
     hostname: ${COMPOSE_PROJECT_NAME}
     container_name: ${COMPOSE_PROJECT_NAME}
-    user: ${DUMMY_UID}:${DUMMY_UID}
+    user: ${DUMMY_UID}:${DUMMY_GID}
     working_dir: /${DUMMY_USER}
     command: /${DUMMY_USER}/${BUILD_DIR_NAME}/${ENTRYPOINT_BASH}
     env_file:
