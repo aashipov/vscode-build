@@ -1,7 +1,7 @@
 FROM debian:12 AS base
 ARG DUMMY_USER=dummy
-ARG DUMMY_UID=1000
-ARG DUMMY_GID=1000
+ARG DUMMY_UID=10001
+ARG DUMMY_GID=10001
 ENV NODE_HOME=/opt/nodejs
 ENV PATH=${NODE_HOME}/bin:${PATH}
 RUN apt-get update && apt-get -y upgrade && \

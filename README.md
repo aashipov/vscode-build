@@ -20,17 +20,20 @@ Put ```/swapfile none swap defaults 0 0``` to ```/etc/fstab```
 
 ### Linux with Docker ###
 
+In ```.env``` adjust ```DISTRO``` variable to any of ```{debian,fedora}```
+
 ```shell
 mkdir -p ${HOME}/vscode-buildbed
 ```
 
 ```shell
-DISTRO=debian DUMMY_UID=$(id -u) DUMMY_GID=$(id -g) docker-compose run --build --rm vscode
+DISTRO=debian DUMMY_UID=`id -u` DUMMY_GID=`id -g` docker-compose run --build --rm vscode
 ```
+
 or
 
 ```shell
-DISTRO=fedora DUMMY_UID=$(id -u) DUMMY_GID=$(id -g) docker-compose run --build --rm vscode
+DISTRO=fedora DUMMY_UID=`id -u` DUMMY_GID=`id -g` docker-compose run --build --rm vscode
 ```
 
 ### Windows or docker-free Linux ###
@@ -38,7 +41,7 @@ DISTRO=fedora DUMMY_UID=$(id -u) DUMMY_GID=$(id -g) docker-compose run --build -
 Git Bash
 
 ```shell
-./entrypoint.bash
+./entrypoint.sh
 ```
 
 ### Installation & setup tweaks ###

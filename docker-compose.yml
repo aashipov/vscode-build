@@ -1,6 +1,7 @@
-# mkdir -p ${HOME}/vscode-buildbed 
-# DISTRO=debian DUMMY_UID=$(id -u) DUMMY_GID=$(id -g) docker-compose run --build --rm vscode
-# DISTRO=fedora DUMMY_UID=$(id -u) DUMMY_GID=$(id -g) docker-compose run --build --rm vscode
+# mkdir -p ${HOME}/vscode-buildbed
+# npm i -g tsc
+# DISTRO=debian DUMMY_UID=`id -u` DUMMY_GID=`id -g` docker-compose run --build --rm vscode
+# DISTRO=fedora DUMMY_UID=`id -u` DUMMY_GID=`id -g` docker-compose run --build --rm vscode
 
 services:
   vscode:
