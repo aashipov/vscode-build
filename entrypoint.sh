@@ -124,7 +124,7 @@ publish() {
         cd ${TOP_DIR}
         local FILE_NAME=${TARGET_DIR_NAME}-${TAG_TO_BUILD}.tar.gz
         
-        GZIP=-9 tar -czhf ${FILE_NAME} ${TARGET_DIR_NAME}
+        tar -chf ${FILE_NAME} -I 'gzip -9' ${TARGET_DIR_NAME}
         
         local GITHUB_TOKEN=$(cat ${HOME}/.github_token)
         if [ "${GITHUB_TOKEN}" != "" ]
