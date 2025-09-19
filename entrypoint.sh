@@ -87,9 +87,13 @@ checkout() {
     if [ $(git tag -l "${TAG_TO_BUILD}") ]
     then
         git checkout tags/${TAG_TO_BUILD}
-    elif [ $(git cat-file -t ${TAG_TO_BUILD}) = "commit" ]
+    elif [ $(git cat-file -t ${TAG_TO_BUILD}) == "commit" ]
     then
         git checkout ${TAG_TO_BUILD}
+    elif printf -- '%s' "${TAG_TO_BUILD}" | grep -q -- "release"
+    then
+        git switch ${TAG_TO_BUILD}
+        git pull -r
     else
         TAG_TO_BUILD=${DEFAULT_BRANCH}-$(git rev-parse --short HEAD)
         printf "Will build ${TAG_TO_BUILD} \n"
@@ -122,6 +126,7 @@ publish() {
     if [ ${?} -eq 0 ]
     then
         cd ${TOP_DIR}
+        TAG_TO_BUILD=$(printf -- '%s' "${TAG_TO_BUILD}" | tr '/' '-' )
         local FILE_NAME=${TARGET_DIR_NAME}-${TAG_TO_BUILD}.tar.gz
         
         tar -chf ${FILE_NAME} -I 'gzip -9' ${TARGET_DIR_NAME}
