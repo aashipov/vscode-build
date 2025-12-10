@@ -1,4 +1,4 @@
-FROM debian:12 AS base
+FROM debian:13 AS base
 ARG DUMMY_USER=dummy
 ARG DUMMY_UID=10001
 ARG DUMMY_GID=10001
@@ -12,7 +12,7 @@ RUN apt-get update && apt-get -y upgrade && \
     groupadd -g ${DUMMY_GID} ${DUMMY_USER} && useradd -m -u ${DUMMY_UID} -d /${DUMMY_USER}/ -g ${DUMMY_USER} ${DUMMY_USER}
 
 FROM base AS builder
-RUN curl -L -o /tmp/nodejs.tar.gz https://nodejs.org/download/release/v22.17.1/node-v22.17.1-linux-x64.tar.gz && \
+RUN curl -L -o /tmp/nodejs.tar.gz https://nodejs.org/download/release/v22.21.1/node-v22.21.1-linux-x64.tar.gz && \
 mkdir -p ${NODE_HOME} && \
 tar -xzf /tmp/nodejs.tar.gz -C ${NODE_HOME} --strip-components=1 && node --version
 
