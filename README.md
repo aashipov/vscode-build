@@ -54,6 +54,12 @@ Untar, copy-paste an extensionsGallery to ```resources/app/product.json```
 
 [Pyright](https://marketplace.visualstudio.com/items?itemName=ms-pyright.pyright) as OSS replacement for [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance)
 
+[clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) and [LLDB DAP](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.lldb-dap) for C/C++
+
+[rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer) and [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) for Rust
+
+[Apache Netbeans LSP](https://marketplace.visualstudio.com/items?itemName=ASF.apache-netbeans-java) for Java
+
 ### License ###
 
 Perl "Artistic License"
