@@ -58,7 +58,7 @@ Untar, copy-paste an extensionsGallery to ```resources/app/product.json```
 
 [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer) and [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) for Rust
 
-[Apache Netbeans LSP](https://marketplace.visualstudio.com/items?itemName=ASF.apache-netbeans-java) for Java
+[Apache Netbeans LSP](https://marketplace.visualstudio.com/items?itemName=ASF.apache-netbeans-java) for Java, mind [test hierarchy bug](https://github.com/oracle/javavscode/issues/218)
 
 ### License ###
 
