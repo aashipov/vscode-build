@@ -60,6 +60,8 @@ Untar, copy-paste an extensionsGallery to ```resources/app/product.json```
 
 [Apache Netbeans LSP](https://marketplace.visualstudio.com/items?itemName=ASF.apache-netbeans-java) for Java, mind [test hierarchy bug](https://github.com/oracle/javavscode/issues/218)
 
+[Metals](https://marketplace.visualstudio.com/items?itemName=scalameta.metals) Java & Scala
+
 ### License ###
 
 Perl "Artistic License"
