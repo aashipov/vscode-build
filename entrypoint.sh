@@ -116,10 +116,10 @@ build() {
     
     set +e
     retry npm run compile-extensions-build
-    set -e
     
     npm run minify-vscode
     npm run gulp vscode-${PLATFORM_FLAVOR}-min-ci
+    set -e
 }
 
 publish() {
