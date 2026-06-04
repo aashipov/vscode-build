@@ -44,7 +44,7 @@ environment() {
 
     PLATFORM_FLAVOR="linux-x64"
     TOP_DIR=${HOME}/${BUILDBED_DIR_NAME}
-    if [ "${OSTYPE}" = "msys" ]
+    if [ "${OSTYPE}" = "msys" ] || [ "${OSTYPE}" = "cygwin" ]
     then
         PLATFORM_FLAVOR="win32-x64"
         TOP_DIR="/c/${BUILDBED_DIR_NAME}"
@@ -53,7 +53,7 @@ environment() {
 }
 
 clean_npm_and_node_gyp() {
-    if [ "${OSTYPE}" = "msys" ]
+    if [ "${OSTYPE}" = "msys" ] || [ "${OSTYPE}" = "cygwin" ]
     then
         rm -rf ${USERPROFILE}/AppData/Local/npm-cache
         rm -rf ${USERPROFILE}/AppData/Local/node-gyp
