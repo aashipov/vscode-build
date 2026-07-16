@@ -103,7 +103,7 @@ checkout() {
 build() {
     cd ${TOP_DIR}/${VSCODE}/
     retry npm ci
-    npm run gulp "vscode-${PLATFORM_FLAVOR}-min"
+    retry npm run gulp "vscode-${PLATFORM_FLAVOR}-min"
 }
 
 publish() {
