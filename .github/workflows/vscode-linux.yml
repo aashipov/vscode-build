@@ -1,0 +1,38 @@
+name: vscode-linux
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  
+  vscode-linux:
+    runs-on: ubuntu-22.04
+    steps:
+      
+      - name: Check if GH_TOKEN is set
+        run: |
+          if [ "${{ secrets.GH_TOKEN }}" == '' ]
+          then
+            printf "secrets.GH_TOKEN is not set\n"
+            exit 1
+          fi
+
+      - name: Check out repository code
+        uses: actions/checkout@v5
+      
+      - name: Clone builder repo
+        run: git clone https://github.com/aashipov/vscode-build.git
+        
+      - name: Save GH_TOKEN
+        run: echo ${{ secrets.GH_TOKEN }} > ${HOME}/.github_token
+      
+      - name: Create host directories
+        run: mkdir -p ${HOME}/{vscode-buildbed,.npm,.cache} 
+        
+      - name: Change access rights
+        run: sudo chown -R 10001:10001 . ${HOME}/{vscode-buildbed,.npm,.cache,.github_token} 
+      
+      - name: Build
+        run: cd vscode-build && DISTRO=debian DUMMY_UID=10001 DUMMY_GID=10001 docker compose run --build --rm vscode

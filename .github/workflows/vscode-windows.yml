@@ -1,0 +1,49 @@
+name: vscode-windows
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  vscode-windows:
+    runs-on: windows-2022
+    steps:
+      - name: Check if GH_TOKEN is set
+        shell: bash
+        run: |
+          if [ "${{ secrets.GH_TOKEN }}" == '' ]
+          then
+            printf "secrets.GH_TOKEN is not set\n"
+            exit 1
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24.18.0
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+
+      - name: Log Node.js, Python, Bash versions, cygwin env
+        shell: bash
+        run: bash --version && node --version && python --version && echo ${OSTYPE} && echo ${PROCESSOR_ARCHITECTURE} && echo ${PROCESSOR_IDENTIFIER}
+
+      - name: Store GH_TOKEN
+        shell: bash
+        run: touch ${HOME}/.github_token && echo ${{ secrets.GH_TOKEN }} > ${HOME}/.github_token
+
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Clone builder repo
+        run: git clone https://github.com/aashipov/vscode-build.git
+
+      - name: Build
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+        shell: bash
+        run: ./vscode-build/entrypoint.sh

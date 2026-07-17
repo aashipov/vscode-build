@@ -1,7 +1,7 @@
 #!/bin/sh
 
 retry() {
-    local retries_count=5
+    local retries_count=3
     local sleep_between_retries_for=5s
     local command="${*}"
     local retval=1
