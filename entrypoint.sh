@@ -102,8 +102,12 @@ checkout() {
 
 build() {
     cd ${TOP_DIR}/${VSCODE}/
-    retry npm ci
-    retry npm run gulp "vscode-${PLATFORM_FLAVOR}-min"
+    retry npm install
+    npm run gulp "vscode-${PLATFORM_FLAVOR}-min"
+    if [ ! -d "${TOP_DIR}/${TARGET_DIR_NAME}" ]
+    then
+        npm run gulp "vscode-${PLATFORM_FLAVOR}-min"
+    fi
 }
 
 publish() {

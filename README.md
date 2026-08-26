@@ -8,7 +8,7 @@ Pristine VSCode OSS build, result of 'systems primitivism' R&D - 'as much benefi
 
 Linux with docker & docker-compose, user with UID/GID 10001, a member of docker group, enough disk space in ```${HOME}``` (Drive C: in Windows) to store source and build files
 
-[Windows host](win.txt)
+[Windows host](win.md)
 
 Both Linux and Windows expect a ```.github_token``` file in ```${HOME}``` for archive upload
 
