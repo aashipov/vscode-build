@@ -1,8 +1,8 @@
 name: vscode-windows
 
 on:
-  push:
-    branches: ["main"]
+  # push:
+  #   branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -18,20 +18,6 @@ jobs:
             exit 1
           fi
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: 24.18.0
-
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.14"
-
-      - name: Log Node.js, Python, Bash versions, cygwin env
-        shell: bash
-        run: bash --version && node --version && python --version && echo ${OSTYPE} && echo ${PROCESSOR_ARCHITECTURE} && echo ${PROCESSOR_IDENTIFIER}
-
       - name: Store GH_TOKEN
         shell: bash
         run: touch ${HOME}/.github_token && echo ${{ secrets.GH_TOKEN }} > ${HOME}/.github_token
@@ -41,6 +27,24 @@ jobs:
 
       - name: Clone builder repo
         run: git clone https://github.com/aashipov/vscode-build.git
+
+      - name: Read .env
+        shell: bash
+        run: cat ./vscode-build/.env >> $GITHUB_ENV
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+
+      - name: Log Node.js, Python, Bash versions, cygwin env
+        shell: bash
+        run: bash --version && node --version && python --version && echo ${OSTYPE} && echo ${PROCESSOR_ARCHITECTURE} && echo ${PROCESSOR_IDENTIFIER}
 
       - name: Build
         env:
