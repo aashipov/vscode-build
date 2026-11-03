@@ -132,18 +132,22 @@ checkout() {
     fi
 }
 
+build_inner() {
+    STARTTIME="$(date +%s)"
+    npm run gulp "vscode-${PLATFORM_FLAVOR}-min"
+    ENDTIME="$(date +%s)"
+    printf '\n\nBuild took %s seconds\n\n' "$((${ENDTIME} - ${STARTTIME}))"
+    unset STARTTIME ENDTIME
+}
+
 build() {
     cd "${TOP_DIR}/${VSCODE}/"
     retry npm install
-    STARTTIME="$(date +%s)"
-    npm run gulp "vscode-${PLATFORM_FLAVOR}-min"
+    build_inner
     if [ ! -d "${TOP_DIR}/${TARGET_DIR_NAME}" ]
     then
-        npm run gulp "vscode-${PLATFORM_FLAVOR}-min"
+        build_inner
     fi
-    ENDTIME="$(date +%s)"
-    echo "Build took $((${ENDTIME} - ${STARTTIME})) seconds"
-    unset STARTTIME ENDTIME
 }
 
 publish() {
@@ -158,10 +162,6 @@ publish() {
         GITHUB_TOKEN="$(cat ${HOME}/.github_token)"
         if [ -n "${GITHUB_TOKEN}" ]
         then
-            GITHUB_OWNER=aashipov
-            GITHUB_REPO=vscode-build
-            GITHUB_RELEASE_ID=77065247
-
             curl \
             "https://uploads.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/releases/${GITHUB_RELEASE_ID}/assets?name=${FILE_NAME}" \
             -H "Authorization: Bearer ${GITHUB_TOKEN}" \
