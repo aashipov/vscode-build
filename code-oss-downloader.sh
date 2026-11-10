@@ -43,7 +43,7 @@ closure() {
     fi
 
     SRC_URL="https://github.com/aashipov/vscode-build/releases/latest/download/${PRODUCT_WITH_PLATFORM}-${TAG_TO_BUILD}.tar.gz"
-    TGT_FILE="${BASE_DIR}/code-oss.tar.gz"
+    TGT_FILE="${BASE_DIR}/$(basename ${SRC_URL})"
     download
     rm -rf "${BASE_DIR}/${PRODUCT_WITH_PLATFORM}"
     tar -xzf "${TGT_FILE}"
