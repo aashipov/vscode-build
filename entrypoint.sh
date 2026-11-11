@@ -23,7 +23,8 @@ retry() {
     done
     if [ ${retval} -ne 0 ]
     then
-        printf 'Command %s failed with exit code %s\n' "${command}" "${retval}"
+        printf 'Command %s failed with exit code %s\n' "${command}" "${retval}" >&2
+        exit 1
     fi
     unset retries_count sleep_between_retries_for command retval
 }
@@ -82,6 +83,7 @@ environment() {
         TOP_DIR="/c/${BUILDBED_DIR_NAME}"
     fi
     TARGET_DIR_NAME="VSCode-${PLATFORM_FLAVOR}"
+    corepack enable
 }
 
 clean_npm_and_node_gyp() {
@@ -142,7 +144,7 @@ build_inner() {
 
 build() {
     cd "${TOP_DIR}/${VSCODE}/"
-    retry npm install
+    retry pnpm install
     build_inner
     if [ ! -d "${TOP_DIR}/${TARGET_DIR_NAME}" ]
     then
