@@ -71,7 +71,7 @@ environment() {
 
     if [ -z "${TAG_TO_BUILD}" ]
     then
-        printf 'TAG_TO_BUILD not set\n'
+        printf 'TAG_TO_BUILD not set\n' >&2
         exit 1
     fi
 

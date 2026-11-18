@@ -20,7 +20,7 @@ download() {
     if ! curl -fL --retry 3 -o "${TGT_FILE}.part" "${SRC_URL}"
     then
         rm -f "${TGT_FILE}.part"
-        printf 'Failed to download %s' "${SRC_URL}"
+        printf 'Failed to download %s' "${SRC_URL}" >&2
         exit 1
     fi
     mv "${TGT_FILE}.part" "${TGT_FILE}"
